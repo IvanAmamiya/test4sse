@@ -30,3 +30,6 @@ yarn.lock
 
 # Optional: test coverage
 coverage/
+
+# Ignore gzip files
+*.gz
