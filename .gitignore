@@ -33,3 +33,6 @@ coverage/
 
 # Ignore gzip files
 *.gz
+
+# Ignore bfg jar
+bfg.jar
