@@ -1,0 +1,1 @@
+globalThis.__RSC_MANIFEST=(globalThis.__RSC_MANIFEST||{});globalThis.__RSC_MANIFEST["/api/sse/route"]={"moduleLoading":{"prefix":"/_next/"},"ssrModuleMapping":{},"edgeSSRModuleMapping":{},"clientModules":{},"entryCSSFiles":{"/home/ribiki/test4sse/src/":[],"/home/ribiki/test4sse/src/app/api/sse/route":[]},"rscModuleMapping":{},"edgeRscModuleMapping":{}}
