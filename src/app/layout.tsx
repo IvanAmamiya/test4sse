@@ -1,3 +1,4 @@
+import 'antd/dist/reset.css';
 import '../../global.css';
 
 export const metadata = {
