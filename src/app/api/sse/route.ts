@@ -3,11 +3,17 @@ export async function GET(request: Request) {
   let interval: NodeJS.Timeout;
   const stream = new ReadableStream({
     start(controller) {
+      let num = 0;
+      const times = ()=>{
+        num++;
+        return num;
+      }
       const send = () => {
         // 推送消息并加上 padding 防止缓冲
         //data: (how many times) \n\n
         //: (padding) \n\n
-        const data = `data: ${new Date().toISOString()}\n\n:${' '.repeat(2048)}\n\n`;
+        
+        const data = `data: ${times()}\n\n:${' '.repeat(2048)}\n\n`;
         controller.enqueue(encoder.encode(data));
       };
       send();
