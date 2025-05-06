@@ -19,7 +19,7 @@ const Page = () => {
   return (
     <div>
       <h1 className='text-6xl text-center'>Server-Sent Events Example</h1>
-      <div>
+      <div className='text-6xl text-left'>
         {messages.map((msg, index) => (
           <div key={index}>{msg}</div>
         ))}
