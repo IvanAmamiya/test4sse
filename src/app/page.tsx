@@ -18,7 +18,7 @@ const Page = () => {
 
   return (
     <div>
-      <h1>Server-Sent Events Example</h1>
+      <h1 className='text-6xl text-center'>Server-Sent Events Example</h1>
       <div>
         {messages.map((msg, index) => (
           <div key={index}>{msg}</div>

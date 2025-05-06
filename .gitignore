@@ -35,4 +35,4 @@ coverage/
 *.gz
 
 # Ignore bfg jar
-bfg.jar
+*.jar
