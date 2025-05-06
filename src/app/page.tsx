@@ -20,7 +20,7 @@ const Page = () => {
   return (
     <div style={{ padding: 24 }}>
       <h1 className='text-6xl text-center'>Server-Sent Events Example</h1>
-      <div style={{ margin: '16px 0' }}>
+      <div style={{ margin: '14px 0' }}>
         <Input placeholder="Type something..." style={{ width: 300, marginRight: 8 }} />
         <Button type="primary">AntD Button</Button>
       </div>
