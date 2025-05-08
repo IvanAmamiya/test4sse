@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { ConfigProvider, Layout, Button, Typography, theme, Input, Alert, Progress, Modal } from "antd";
+import { ConfigProvider, Layout, Typography, theme, Input, Alert, Progress, Modal, Button } from "antd";
+import GradientButton from "./GradientButton";
 
 const { Header, Content, Footer } = Layout;
 const { Title } = Typography;
@@ -139,20 +140,13 @@ const Page = () => {
               className="transition-all duration-300 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
               style={{ width: 300, marginRight: 8 }}
             />
-            <Button
-              type="primary"
-              className="transition-all duration-300"
-              style={{
-                background: isDark
-                  ? "linear-gradient(to right, #1E3A8A, #334155)" // 深色模式下的渐变
-                  : "linear-gradient(to right, #FFFFFF, #F3F4F6)", // 浅色模式下的渐变
-                color: isDark ? "#E0E7FF" : "#000000",
-                border: "none",
-              }}
+            <GradientButton
+              isDark={isDark} // 传入整体背景的 isDark 属性
+              style={{ border: "none" }}
               onClick={handlePrmBtnClick}
             >
               Start Training
-            </Button>
+            </GradientButton>
           </div>
           <Alert
             message="Ant Design Alert Example"
