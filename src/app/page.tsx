@@ -85,6 +85,10 @@ const Page = () => {
           colorBgBase: isDark ? "#1E293B" : "#FFFFFF",
           colorTextBase: isDark ? "#E0E7FF" : "#000000",
         },
+        motion: {
+          motionDurationMid: "0.5s", // 将过渡持续时间延长到 0.5s
+          motionEaseInOut: "ease-in-out", // 保持缓动函数
+        },
       }}
     >
       <Layout style={{ minHeight: "100vh" }}>
