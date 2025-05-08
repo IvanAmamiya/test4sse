@@ -1,22 +1,23 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Button, Input, Alert } from 'antd';
+import { Button, Input, Alert, Progress } from 'antd';
 
 const Page = () => {
   const [messages, setMessages] = useState<string[]>([]);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const eventSource = new EventSource('/api/sse');
 
     eventSource.onmessage = (event) => {
       setMessages((prevMessages) => [...prevMessages, event.data]);
+      const percent = Math.min(100, Math.max(0, parseInt(event.data, 10)));
+      if (!isNaN(percent)) setProgress(percent);
     };
 
     return () => {
       eventSource.close();
     };
-
-
   }, []);
 
   const handlePrmBtnClick = () => {
@@ -58,7 +59,7 @@ const Page = () => {
           WebkitBackgroundClip: 'text',
           backgroundClip: 'text',
           color: 'transparent',
-          height: '90px', 
+          height: '90px',
         }}
       >
         Server-Sent Events Example
@@ -68,10 +69,9 @@ const Page = () => {
         <Button type="primary" onClick={handlePrmBtnClick}>AntD Button</Button>
       </div>
       <Alert message="Ant Design Alert Example" type="info" showIcon style={{ marginBottom: 16 }} />
-      <div className='text-2xl text-left'>
-        {messages.map((msg, index) => (
-          <div key={index}>{msg}</div>
-        ))}
+      <Progress percent={progress} style={{ marginBottom: 16 }} />
+      <div className="text-2xl text-left">
+        进度：{progress}%
       </div>
     </div>
   );
