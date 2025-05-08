@@ -51,8 +51,10 @@ const Page = () => {
   }
 
   return (
-    <div style={{ padding: 24 }}>
-      <h1 className='text-6xl text-center'>Server-Sent Events Example</h1>
+    <div style={{ padding: 24 }} className="bg-amber-900 min-h-screen">
+      <h1 className="text-6xl text-center font-extrabold text-red-500">
+        Server-Sent Events Example
+      </h1>
       <div style={{ margin: '14px 0' }}>
         <Input placeholder="Type something..." style={{ width: 300, marginRight: 8 }} />
         <Button type="primary" onClick={handlePrmBtnClick}>AntD Button</Button>
