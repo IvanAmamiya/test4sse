@@ -116,19 +116,12 @@ const Page = () => {
           >
             Anon Saijo
           </Title>
-          <Button
-            type="primary"
-            style={{
-              background: isDark
-                ? "linear-gradient(to right, #1E3A8A, #334155)" // 深色模式下的渐变
-                : "linear-gradient(to right, #FFFFFF, #F3F4F6)", // 浅色模式下的渐变
-              color: isDark ? "#E0E7FF" : "#000000",
-              border: "none",
-            }}
+          <GradientButton
+            isDark={isDark} // 传入整体背景的 isDark 属性
             onClick={toggleTheme}
           >
             切换到{isDark ? "浅色" : "深色"}模式
-          </Button>
+          </GradientButton>
         </Header>
         <Content style={{ padding: "24px" }}>
           <Typography.Paragraph style={{ color: isDark ? "#E0E7FF" : "#000000" }}>
@@ -141,11 +134,18 @@ const Page = () => {
               style={{ width: 300, marginRight: 8 }}
             />
             <GradientButton
+              className="mr-3" // Ensure this matches the updated GradientButtonProps
               isDark={isDark} // 传入整体背景的 isDark 属性
-              style={{ border: "none" }}
               onClick={handlePrmBtnClick}
             >
               Start Training
+            </GradientButton>
+            <GradientButton
+              className="mr-3"
+              isDark={isDark} // 传入整体背景的 isDark 属性
+              onClick={handlePrmBtnClick}
+            >
+              Graphs
             </GradientButton>
           </div>
           <Alert

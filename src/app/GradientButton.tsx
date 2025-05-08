@@ -3,6 +3,7 @@ import { Button } from "antd";
 import styles from "./pageStyles.module.css";
 
 interface GradientButtonProps {
+  className?: string; // 添加 className 属性支持
   isDark?: boolean; // 将 isDark 设置为可选属性
   type?: "button" | "submit" | "reset" | "primary"; // 添加 "primary" 类型支持
   style?: React.CSSProperties; // 添加 style 属性支持
