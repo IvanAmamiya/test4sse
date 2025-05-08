@@ -51,8 +51,15 @@ const Page = () => {
   }
 
   return (
-    <div style={{ padding: 24 }} className="bg-amber-900 min-h-screen">
-      <h1 className="text-6xl text-center font-extrabold text-red-500">
+    <div style={{ padding: 24 }}>
+      <h1
+        className="text-6xl text-center font-extrabold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+        style={{
+          WebkitBackgroundClip: 'text',
+          backgroundClip: 'text',
+          color: 'transparent',
+        }}
+      >
         Server-Sent Events Example
       </h1>
       <div style={{ margin: '14px 0' }}>
