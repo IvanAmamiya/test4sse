@@ -58,6 +58,7 @@ const Page = () => {
           WebkitBackgroundClip: 'text',
           backgroundClip: 'text',
           color: 'transparent',
+          height: '90px', 
         }}
       >
         Server-Sent Events Example
@@ -67,7 +68,7 @@ const Page = () => {
         <Button type="primary" onClick={handlePrmBtnClick}>AntD Button</Button>
       </div>
       <Alert message="Ant Design Alert Example" type="info" showIcon style={{ marginBottom: 16 }} />
-      <div className='text-6xl text-left'>
+      <div className='text-2xl text-left'>
         {messages.map((msg, index) => (
           <div key={index}>{msg}</div>
         ))}
