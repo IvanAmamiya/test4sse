@@ -151,7 +151,7 @@ const Page = () => {
               }}
               onClick={handlePrmBtnClick}
             >
-              AntD Button
+              Start Training
             </Button>
           </div>
           <Alert
