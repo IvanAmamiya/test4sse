@@ -1,14 +1,14 @@
 {
   "header": {
-    "dark": "linear-gradient(to right, #1E3A8A, #334155)",
-    "light": "linear-gradient(to right, #FFFFFF, #F3F4F6)"
+    "dark": ["#1E3A8A", "#334155"],
+    "light": ["#FFFFFF", "#F3F4F6"]
   },
   "alert": {
-    "dark": "linear-gradient(to right, #1E3A8A, #334155)",
-    "light": "linear-gradient(to right, #FFFFFF, #F3F4F6)"
+    "dark": ["#1E3A8A", "#334155"],
+    "light": ["#FFFFFF", "#F3F4F6"]
   },
   "title": {
-    "dark": "linear-gradient(to right, #93C5FD, #BFDBFE)",
-    "light": "linear-gradient(to right, #8B5CF6, #D946EF)"
+    "dark": ["#93C5FD", "#BFDBFE"],
+    "light": ["#8B5CF6", "#D946EF"]
   }
 }
