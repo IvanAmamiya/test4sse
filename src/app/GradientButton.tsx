@@ -20,10 +20,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({ isDark = false, onClick
           ? "linear-gradient(to right, #1E3A8A, #334155)" // 深色模式下的渐变
           : "linear-gradient(to right, #FFFFFF, #F3F4F6)", // 浅色模式下的渐变
         color: isDark ? "#E0E7FF" : "#000000",
-        marginTop: "4px",
-        marginLeft: "4px",
-        marginRight: "4px",
-      
+        margin: "4px 4px 0px 0px",      
       }}
       onClick={onClick}
     >
