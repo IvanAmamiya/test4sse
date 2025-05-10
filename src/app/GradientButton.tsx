@@ -4,7 +4,7 @@ import { Button } from "antd";
 interface GradientButtonProps {
   className?: string; // 添加 className 属性支持
   isDark?: boolean; // 将 isDark 设置为可选属性
-  type?: "primary" | "default" | "dashed" | "link" | "text" | "button" | "submit" | "reset"; // 添加更多类型支持
+  type?: "primary" | "default" | "dashed" | "link" | "text"; // 只保留 antd 支持的类型
   style?: React.CSSProperties; // 添加 style 属性支持
   onClick: () => void;
   children: React.ReactNode;
