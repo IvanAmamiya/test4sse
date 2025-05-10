@@ -15,17 +15,14 @@ const GradientButton: React.FC<GradientButtonProps> = ({ isDark = false, onClick
   return (
     <Button
       type="primary"
-      className="transition-all duration-300"
+      className={`transition-all duration-300 rounded cursor-pointer`}
       style={{
-        border: "none",
+        border: isDark ? "none" : undefined,
         background: isDark
           ? "linear-gradient(to right, #1E3A8A, #334155)" // 深色模式下的渐变
           : "linear-gradient(to right, #FFFFFF, #F3F4F6)", // 浅色模式下的渐变
         color: isDark ? "#E0E7FF" : "#000000",
-        padding: "8px 16px",
-        borderRadius: "4px",
-        cursor: "pointer",
-        margin: "0 4px", // 添加左右间距
+        margin: "0 3px"
       }}
       onClick={onClick}
     >
