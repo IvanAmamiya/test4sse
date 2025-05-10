@@ -99,3 +99,9 @@ export async function GET(request: Request) {
 
 ## 反馈与贡献
 如有建议或问题，欢迎提 issue 或 PR。
+
+
+#5.12目标：引入graphs 用mock数据绘制机器学习所需的曲线
+modal换成正常的 实在不行自己搓
+
+这一步完成开始开分支
