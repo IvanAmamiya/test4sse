@@ -1,4 +1,5 @@
 import { getSSEMessageStream } from "@/utils/sseMessage";
+import { SSE_HEADERS } from "@/utils/sseConfig";
 
 export async function GET(request: Request) {
   const encoder = new TextEncoder();
@@ -19,10 +20,6 @@ export async function GET(request: Request) {
   });
 
   return new Response(stream, {
-    headers: {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      "Connection": "keep-alive",
-    },
+    headers: SSE_HEADERS,
   });
 }

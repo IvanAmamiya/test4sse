@@ -7,9 +7,9 @@
 - Ant Design 组件库
 - Tailwind CSS 原子化样式
 - 支持深色/浅色主题切换
-- 渐变按钮与主题色全局配置（themeGradients.json/themeColors.json）
+- 主题色与渐变全局配置（themeGradients.json/themeColors.json）
 - 统一的 getThemeGradient/getThemeColor 工具函数
-- 服务端推送（SSE）实时进度展示
+- SSE 消息流接口解耦，易于对接真实消息管道
 - ESLint + Prettier 统一代码风格
 
 ## 目录结构
@@ -31,7 +31,9 @@
 │   ├── types/
 │   │   └── index.ts                  # 类型定义
 │   └── utils/
-│       └── theme.ts                  # 主题色/渐变工具函数
+│       ├── theme.ts                  # 主题色/渐变工具函数
+│       ├── sseMessage.ts             # SSE 消息流接口（async generator）
+│       └── sseConfig.ts              # SSE 响应头配置
 ├── next.config.js
 ├── tailwind.config.js
 ├── postcss.config.js
@@ -59,9 +61,9 @@ npm run format
 - 组件样式推荐使用这些工具函数，便于主题扩展和维护。
 
 ## SSE 消息流接口说明
-
 - 消息获取逻辑已抽象为 `getSSEMessageStream`（见 `src/utils/sseMessage.ts`），采用 async generator 形式，负责消息管道/轮询/间隔等所有细节。
 - API 路由（`src/app/api/sse/route.ts`）通过 `for await...of getSSEMessageStream()` 消费消息流并推送到前端，完全解耦消息获取与推送。
+- SSE 响应头配置集中在 `src/utils/sseConfig.ts`，便于统一维护。
 - 未来如需对接真实消息管道，只需修改 `getSSEMessageStream` 的实现，无需改动 API 路由。
 - 当前 mock 实现为每 2 秒产出一条自增数字消息。
 
@@ -81,6 +83,7 @@ export async function* getSSEMessageStream() {
 ```ts
 // src/app/api/sse/route.ts
 import { getSSEMessageStream } from "@/utils/sseMessage";
+import { SSE_HEADERS } from "@/utils/sseConfig";
 
 export async function GET(request: Request) {
   const encoder = new TextEncoder();
@@ -91,7 +94,7 @@ export async function GET(request: Request) {
       }
     }
   });
-  return new Response(stream, { headers: { "Content-Type": "text/event-stream" } });
+  return new Response(stream, { headers: SSE_HEADERS });
 }
 ```
 
