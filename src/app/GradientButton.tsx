@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "antd";
-import styles from "./pageStyles.module.css";
 
 interface GradientButtonProps {
   className?: string; // 添加 className 属性支持
