@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { ConfigProvider, Layout, Typography, theme, Input, Alert, Progress, Modal, Button } from "antd";
 import GradientButton from "@/components/GradientButton";
-import { getGradient, getColor } from "@/utils/theme";
+import { getThemeGradient, getThemeColor } from "@/utils/theme";
 
 const { Header, Content, Footer } = Layout;
 const { Title } = Typography;
@@ -96,13 +96,13 @@ const Page = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            background: getGradient("header", isDark),
+            background: getThemeGradient("header", isDark),
           }}
         >
           <Title
             level={2}
             style={{
-              backgroundImage: getGradient("title", isDark),
+              backgroundImage: getThemeGradient("title", isDark),
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               margin: 0,
@@ -148,8 +148,8 @@ const Page = () => {
               marginBottom: 16,
               fontWeight: 'bold',
               fontSize: '1.25rem',
-              background: getGradient("header", isDark),
-              color: getColor("text", isDark),
+              background: getThemeGradient("header", isDark),
+              color: getThemeColor("text", isDark),
               border: "none",
             }}
           />
@@ -158,7 +158,7 @@ const Page = () => {
             className="dark:bg-gray-800 dark:text-white"
             style={{ marginBottom: 16 }}
           />
-          <div className="text-2xl text-left" style={{ color: getColor("progressText", isDark) }}>
+          <div className="text-2xl text-left" style={{ color: getThemeColor("progressText", isDark) }}>
             进度：{progress}%
           </div>
           <Modal
@@ -167,15 +167,15 @@ const Page = () => {
             onCancel={handleModalClose}
             footer={null}
             style={{
-              backgroundColor: getColor("modalBg", isDark),
-              color: getColor("text", isDark),
-              border: `1px solid ${getColor("modalBorder", isDark)}`,
+              backgroundColor: getThemeColor("modalBg", isDark),
+              color: getThemeColor("text", isDark),
+              border: `1px solid ${getThemeColor("modalBorder", isDark)}`,
             }}
           >
             这是一个示例对话框，内容会根据主题动态调整颜色。
           </Modal>
         </Content>
-        <Footer style={{ textAlign: "center", color: getColor("text", isDark) }}>
+        <Footer style={{ textAlign: "center", color: getThemeColor("text", isDark) }}>
           Anon Saijo
         </Footer>
       </Layout>

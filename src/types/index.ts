@@ -1,8 +1,8 @@
-import gradients from "@/styles/gradients.json";
-import colors from "@/styles/colors.json";
+import themeGradients from "@/styles/themeGradients.json";
+import themeColors from "@/styles/themeColors.json";
 
-export type GradientKey = keyof typeof gradients;
-export type ColorKey = keyof typeof colors;
+export type ThemeGradientKey = keyof typeof themeGradients;
+export type ThemeColorKey = keyof typeof themeColors;
 
 export interface SSEEvent {
     id?: string;
