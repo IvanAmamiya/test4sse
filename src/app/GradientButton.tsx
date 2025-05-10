@@ -1,14 +1,6 @@
 import React from "react";
 import { Button } from "antd";
-
-interface GradientButtonProps {
-  className?: string; // 添加 className 属性支持
-  isDark?: boolean; // 将 isDark 设置为可选属性
-  type?: "primary" | "default" | "dashed" | "link" | "text"; // 只保留 antd 支持的类型
-  style?: React.CSSProperties; // 添加 style 属性支持
-  onClick: () => void;
-  children: React.ReactNode;
-}
+import { GradientButtonProps } from "@/types/gradient";
 
 const GradientButton: React.FC<GradientButtonProps> = ({ isDark = false, onClick, children, type = "primary" }) => {
   return (
