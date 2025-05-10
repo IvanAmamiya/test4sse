@@ -7,7 +7,7 @@
 - Ant Design 组件库
 - Tailwind CSS 原子化样式
 - 支持深色/浅色主题切换
-- 主题色与渐变全局配置（themeGradients.json/themeColors.json）
+- 主题色与渐变全局合并配置（themeConfig.json）
 - 统一的 getThemeGradient/getThemeColor 工具函数
 - SSE 消息流接口解耦，易于对接真实消息管道
 - ESLint + Prettier 统一代码风格
@@ -21,26 +21,25 @@
 │   │   ├── Providers.tsx             # 全局 Provider
 │   │   └── api/sse/route.ts          # SSE 接口
 │   ├── components/
+│   │   ├── CustomModal.tsx           # 封装的 Modal 组件
 │   │   ├── GradientButton.tsx        # 渐变按钮组件
-│   │   └── ThemeSwitcher.tsx         # 主题切换按钮
+│   │   ├── ProgressInfo.tsx          # 进度条与提示
+│   │   ├── ThemeHeader.tsx           # 顶部 Header 区域
+│   │   ├── ThemeSwitcher.tsx         # 主题切换按钮
+│   │   └── TrainingPanel.tsx         # 输入框和按钮组
+│   ├── hooks/
+│   │   └── useSSEProgress.ts         # SSE 进度监听 hook
 │   ├── styles/
 │   │   ├── global.css                # 全局样式
 │   │   ├── pageStyles.module.css     # 局部样式
-│   │   ├── themeGradients.json       # 全局渐变配置
-│   │   └── themeColors.json          # 全局主题色配置
+│   │   └── themeConfig.json          # 全局主题色与渐变配置
 │   ├── types/
 │   │   └── index.ts                  # 类型定义
 │   └── utils/
-│       ├── theme.ts                  # 主题色/渐变工具函数
+│       ├── sseConfig.ts              # SSE 响应头配置
 │       ├── sseMessage.ts             # SSE 消息流接口（async generator）
-│       └── sseConfig.ts              # SSE 响应头配置
-├── next.config.js
-├── tailwind.config.js
-├── postcss.config.js
-├── tsconfig.json
-├── package.json
-├── .eslintrc.json
-├── global.css
+│       └── theme.ts                  # 主题色/渐变工具函数
+├── ...
 ```
 
 ## 启动开发环境
@@ -56,7 +55,7 @@ npm run format
 ```
 
 ## 主题与渐变体系说明
-- 主题色和渐变统一配置在 `src/styles/themeColors.json` 和 `src/styles/themeGradients.json`。
+- 主题色和渐变统一配置在 `src/styles/themeConfig.json`，分为 colors 和 gradients 两部分。
 - 通过 `getThemeColor` 和 `getThemeGradient` 工具函数获取主题色和渐变色，避免硬编码。
 - 组件样式推荐使用这些工具函数，便于主题扩展和维护。
 

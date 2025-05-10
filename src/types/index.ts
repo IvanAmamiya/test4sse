@@ -1,9 +1,8 @@
 // 主题色与渐变类型定义，配合 themeColors/themeGradients 使用
-import themeGradients from "@/styles/themeGradients.json";
-import themeColors from "@/styles/themeColors.json";
+import themeConfig from "@/styles/themeConfig.json";
 
-export type ThemeGradientKey = keyof typeof themeGradients;
-export type ThemeColorKey = keyof typeof themeColors;
+export type ThemeGradientKey = keyof typeof themeConfig.gradients;
+export type ThemeColorKey = keyof typeof themeConfig.colors;
 
 export interface SSEEvent {
     id?: string;
