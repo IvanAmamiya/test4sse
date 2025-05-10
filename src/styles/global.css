@@ -13,7 +13,9 @@ button {
 }
 
 /* 为文字元素设置合理的默认行为 */
-p, span, div {
+p,
+span,
+div {
   cursor: default; /* 默认光标 */
   user-select: text; /* 允许选择文字 */
 }

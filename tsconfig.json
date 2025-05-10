@@ -33,7 +33,8 @@
       "@types/*": [
         "types/*"
       ]
-    }
+    },
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",

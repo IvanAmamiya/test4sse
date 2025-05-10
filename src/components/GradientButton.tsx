@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "antd";
-import { GradientButtonProps } from "@/types/gradient";
+import { GradientButtonProps } from "@/types";
 
 const GradientButton: React.FC<GradientButtonProps> = ({ isDark = false, onClick, children, type = "primary" }) => {
   return (

@@ -8,7 +8,7 @@
 
 /* Styles for the Title component */
 .title {
-  background-image: linear-gradient(to right, #93C5FD, #BFDBFE);
+  background-image: linear-gradient(to right, #93c5fd, #bfdbfe);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 0;
@@ -66,30 +66,30 @@
 
 /* Styles for the progress text */
 .progressText {
-  color: #93C5FD;
+  color: #93c5fd;
   font-size: 1.5rem;
   text-align: left;
 }
 
 /* Styles for the Modal component */
 .modal {
-  background-color: #1E293B;
+  background-color: #1e293b;
   @apply textColorDark;
   border: 1px solid #334155;
 }
 
 /* 提取深浅色模式下的渐变背景样式 */
 .gradientBackgroundDark {
-  background: linear-gradient(to right, #1E3A8A, #334155);
+  background: linear-gradient(to right, #1e3a8a, #334155);
 }
 
 .gradientBackgroundLight {
-  background: linear-gradient(to right, #FFFFFF, #F3F4F6);
+  background: linear-gradient(to right, #ffffff, #f3f4f6);
 }
 
 /* 提取深浅色模式下的文字颜色样式 */
 .textColorDark {
-  color: #E0E7FF;
+  color: #e0e7ff;
 }
 
 .textColorLight {
