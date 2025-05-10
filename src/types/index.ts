@@ -1,3 +1,4 @@
+// 主题色与渐变类型定义，配合 themeColors/themeGradients 使用
 import themeGradients from "@/styles/themeGradients.json";
 import themeColors from "@/styles/themeColors.json";
 

@@ -7,26 +7,31 @@
 - Ant Design 组件库
 - Tailwind CSS 原子化样式
 - 支持深色/浅色主题切换
-- 自定义渐变按钮组件（GradientButton）
-- 使用自定义 CSS 类实现渐变背景和文字色
-- 支持服务端推送（SSE）实时进度展示
+- 渐变按钮与主题色全局配置（themeGradients.json/themeColors.json）
+- 统一的 getThemeGradient/getThemeColor 工具函数
+- 服务端推送（SSE）实时进度展示
 - ESLint + Prettier 统一代码风格
 
 ## 目录结构
 ```
 ├── src/
 │   ├── app/
-│   │   ├── GradientButton.tsx         # 渐变按钮组件
 │   │   ├── layout.tsx                # 页面布局
-│   │   ├── page.tsx                  # 主页入口
-│   │   ├── pageStyles.module.css     # 自定义样式（含深浅色渐变等）
-│   │   ├── Providers.tsx             # 主题等全局 Provider
-│   │   ├── ThemeSwitcher.tsx         # 主题切换按钮
+│   │   ├── page.tsx                  # 主页入口，主题切换、进度展示等
+│   │   ├── Providers.tsx             # 全局 Provider
 │   │   └── api/sse/route.ts          # SSE 接口
-│   └── types/
-│       └── index.tsx
-├── types/
-│   └── index.ts
+│   ├── components/
+│   │   ├── GradientButton.tsx        # 渐变按钮组件
+│   │   └── ThemeSwitcher.tsx         # 主题切换按钮
+│   ├── styles/
+│   │   ├── global.css                # 全局样式
+│   │   ├── pageStyles.module.css     # 局部样式
+│   │   ├── themeGradients.json       # 全局渐变配置
+│   │   └── themeColors.json          # 全局主题色配置
+│   ├── types/
+│   │   └── index.ts                  # 类型定义
+│   └── utils/
+│       └── theme.ts                  # 主题色/渐变工具函数
 ├── next.config.js
 ├── tailwind.config.js
 ├── postcss.config.js
@@ -48,11 +53,10 @@ npm run lint
 npm run format
 ```
 
-## 说明
-- 渐变按钮样式通过自定义 CSS 类（如 gradientBackgroundDark、textColorDark）实现。
-- 主题切换通过 isDark 状态和自定义类切换实现。
-- @apply 仅用于 Tailwind 原子类，渐变等自定义样式直接写在 CSS 类中。
-- ESLint/Prettier 配置已集成，VSCode 可自动格式化和纠错。
+## 主题与渐变体系说明
+- 主题色和渐变统一配置在 `src/styles/themeColors.json` 和 `src/styles/themeGradients.json`。
+- 通过 `getThemeColor` 和 `getThemeGradient` 工具函数获取主题色和渐变色，避免硬编码。
+- 组件样式推荐使用这些工具函数，便于主题扩展和维护。
 
 ## 反馈与贡献
 如有建议或问题，欢迎提 issue 或 PR。
