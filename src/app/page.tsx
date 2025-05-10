@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { ConfigProvider, Layout, Typography, theme, Input, Alert, Progress, Modal, Button } from "antd";
-import GradientButton from "./GradientButton";
+import GradientButton from "@/components/GradientButton";
 
 const { Header, Content, Footer } = Layout;
 const { Title } = Typography;
