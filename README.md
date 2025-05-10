@@ -58,5 +58,42 @@ npm run format
 - 通过 `getThemeColor` 和 `getThemeGradient` 工具函数获取主题色和渐变色，避免硬编码。
 - 组件样式推荐使用这些工具函数，便于主题扩展和维护。
 
+## SSE 消息流接口说明
+
+- 消息获取逻辑已抽象为 `getSSEMessageStream`（见 `src/utils/sseMessage.ts`），采用 async generator 形式，负责消息管道/轮询/间隔等所有细节。
+- API 路由（`src/app/api/sse/route.ts`）通过 `for await...of getSSEMessageStream()` 消费消息流并推送到前端，完全解耦消息获取与推送。
+- 未来如需对接真实消息管道，只需修改 `getSSEMessageStream` 的实现，无需改动 API 路由。
+- 当前 mock 实现为每 2 秒产出一条自增数字消息。
+
+示例：
+```ts
+// src/utils/sseMessage.ts
+export async function* getSSEMessageStream() {
+  let count = 0;
+  while (true) {
+    count++;
+    await new Promise(res => setTimeout(res, 2000));
+    yield String(count);
+  }
+}
+```
+
+```ts
+// src/app/api/sse/route.ts
+import { getSSEMessageStream } from "@/utils/sseMessage";
+
+export async function GET(request: Request) {
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    async start(controller) {
+      for await (const msg of getSSEMessageStream()) {
+        controller.enqueue(encoder.encode(`data: ${msg}\n\n`));
+      }
+    }
+  });
+  return new Response(stream, { headers: { "Content-Type": "text/event-stream" } });
+}
+```
+
 ## 反馈与贡献
 如有建议或问题，欢迎提 issue 或 PR。

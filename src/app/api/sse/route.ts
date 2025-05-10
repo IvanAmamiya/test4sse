@@ -1,26 +1,20 @@
+import { getSSEMessageStream } from "@/utils/sseMessage";
+
 export async function GET(request: Request) {
   const encoder = new TextEncoder();
-  let interval: NodeJS.Timeout;
   const stream = new ReadableStream({
-    start(controller) {
-      let num = 0;
-      const times = ()=>{
-        num++;
-        return num;
+    async start(controller) {
+      try {
+        for await (const msg of getSSEMessageStream()) {
+          const data = `data: ${msg}\n\n:${' '.repeat(2048)}\n\n`;
+          controller.enqueue(encoder.encode(data));
+        }
+      } catch (e) {
+        controller.error(e);
       }
-      const send = () => {
-        // 推送消息并加上 padding 防止缓冲
-        //data: (how many times) \n\n
-        //: (padding) \n\n
-        
-        const data = `data: ${times()}\n\n:${' '.repeat(2048)}\n\n`;
-        controller.enqueue(encoder.encode(data));
-      };
-      send();
-      interval = setInterval(send, 4000); // 每10秒推送一次
     },
     cancel() {
-      clearInterval(interval);
+      // 可选：如有清理逻辑可在此处理
     },
   });
 
