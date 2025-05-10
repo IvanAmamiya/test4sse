@@ -16,7 +16,6 @@ const GradientButton: React.FC<GradientButtonProps> = ({ isDark = false, onClick
       type={type}
       className={`transition-all duration-300 rounded cursor-pointer`}
       style={{
-        border: isDark ? "none" : undefined,
         background: isDark
           ? "linear-gradient(to right, #1E3A8A, #334155)" // 深色模式下的渐变
           : "linear-gradient(to right, #FFFFFF, #F3F4F6)", // 浅色模式下的渐变
