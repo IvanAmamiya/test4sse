@@ -25,6 +25,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({ isDark = false, onClick
         padding: "8px 16px",
         borderRadius: "4px",
         cursor: "pointer",
+        margin: "0 4px", // 添加左右间距
       }}
       onClick={onClick}
     >

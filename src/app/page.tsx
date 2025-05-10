@@ -134,14 +134,12 @@ const Page = () => {
               style={{ width: 300, marginRight: 8 }}
             />
             <GradientButton
-              className="mr-3" // Ensure this matches the updated GradientButtonProps
               isDark={isDark} // 传入整体背景的 isDark 属性
               onClick={handlePrmBtnClick}
             >
               Start Training
             </GradientButton>
             <GradientButton
-              className="mr-3"
               isDark={isDark} // 传入整体背景的 isDark 属性
               onClick={handlePrmBtnClick}
             >
