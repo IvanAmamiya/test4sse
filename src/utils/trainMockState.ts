@@ -25,3 +25,5 @@ export function getTrainingLock() {
 export function setTrainingLock(val: boolean) {
   trainingLock = val;
 }
+
+// 合并 trainMockState.ts 到 sseMessage.ts，移除 trainMockState.ts

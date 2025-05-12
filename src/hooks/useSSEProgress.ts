@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
+import type { TrainDataPoint } from "../types";
 
-// 训练数据类型
-export interface TrainDataPoint {
-  step: number;
-  loss: number;
-  accuracy: number;
-  totalSteps?: number;
-  currentStep?: number;
-}
+// 类型定义集中到 types/index.ts
+export * from "../types/index";
 
-// 用于监听 SSE 进度和消息的自定义 hook
+// 只返回 data 和 progress，训练状态由 page.tsx 控制
 export function useSSEProgress(isTraining: boolean) {
   const [data, setData] = useState<TrainDataPoint[]>([]);
   const [progress, setProgress] = useState(0);
@@ -19,21 +14,14 @@ export function useSSEProgress(isTraining: boolean) {
     const eventSource = new EventSource('/api/sse');
     eventSource.onmessage = (event) => {
       try {
-        // 期望 SSE 返回 JSON 字符串
         const parsed = JSON.parse(event.data);
-        if (typeof parsed.step === 'number' && typeof parsed.loss === 'number' && typeof parsed.accuracy === 'number') {
+        if (typeof parsed.step === 'number' && typeof parsed.totalSteps === 'number') {
           setData(prev => [...prev, parsed]);
-          setProgress(Math.min(100, Math.max(0, Math.round(parsed.accuracy * 100))));
+          setProgress(Math.round((parsed.currentStep / parsed.totalSteps) * 100));
         }
-      } catch {
-        // 兼容旧的纯数字进度
-        const percent = Math.min(100, Math.max(0, parseInt(event.data, 10)));
-        if (!isNaN(percent)) setProgress(percent);
-      }
+      } catch {}
     };
-    return () => {
-      eventSource.close();
-    };
+    return () => eventSource.close();
   }, [isTraining]);
 
   return { data, progress };

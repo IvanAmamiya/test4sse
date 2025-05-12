@@ -1,6 +1,7 @@
 import { Modal } from "antd";
 import { getThemeColor } from "@/utils/theme";
 
+// 只保留必要 props
 interface ConfirmTrainModalProps {
   isDark: boolean;
   visible: boolean;

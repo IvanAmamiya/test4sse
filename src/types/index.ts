@@ -25,3 +25,12 @@ export interface GradientButtonProps {
 }  
 
 export type SSEHandler = (req: Request, res: Response) => SSEResponse;
+
+// 只保留 TrainDataPoint 类型定义
+export interface TrainDataPoint {
+  step: number;
+  loss: number;
+  accuracy: number;
+  totalSteps?: number;
+  currentStep?: number;
+}
