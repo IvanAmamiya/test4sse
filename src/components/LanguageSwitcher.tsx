@@ -12,9 +12,9 @@ interface LanguageSwitcherProps {
 }
 
 const langs = [
-  { code: "zh", labelKey: "chinese" },
-  { code: "ja", labelKey: "japanese" },
-  { code: "en", labelKey: "english" },
+  { code: "zh", label: "中文" },
+  { code: "ja", label: "日本語" },
+  { code: "en", label: "English" },
 ];
 
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ isDark, style, buttonStyle, t }) => {
@@ -38,7 +38,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ isDark, style, butt
             }}
             key={lang.code}
           >
-            {t(lang.labelKey)}
+            {lang.label}
           </GradientButton>
         );
       })}
