@@ -8,6 +8,7 @@ import GraphPanel from "@/components/GraphPanel";
 import ConfirmTrainModal from "@/components/ConfirmTrainModal";
 import { useSSEProgress } from "@/hooks/useSSEProgress";
 import type { TrainDataPoint } from "@/hooks/useSSEProgress";
+import '../utils/i18n';
 
 const { Content, Footer } = Layout;
 
