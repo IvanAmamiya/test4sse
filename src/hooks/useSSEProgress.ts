@@ -8,11 +8,12 @@ export interface TrainDataPoint {
 }
 
 // 用于监听 SSE 进度和消息的自定义 hook
-export function useSSEProgress() {
+export function useSSEProgress(isTraining: boolean) {
   const [data, setData] = useState<TrainDataPoint[]>([]);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    if (!isTraining) return;
     const eventSource = new EventSource('/api/sse');
     eventSource.onmessage = (event) => {
       try {
@@ -31,7 +32,7 @@ export function useSSEProgress() {
     return () => {
       eventSource.close();
     };
-  }, []);
+  }, [isTraining]);
 
   return { data, progress };
 }

@@ -4,23 +4,30 @@ import { ConfigProvider, Layout, Typography, theme } from "antd";
 import ThemeHeader from "@/components/ThemeHeader";
 import TrainingPanel from "@/components/TrainingPanel";
 import ProgressInfo from "@/components/ProgressInfo";
-import CustomModal from "@/components/CustomModal";
 import GraphPanel from "@/components/GraphPanel";
+import ConfirmTrainModal from "@/components/ConfirmTrainModal";
 import { useSSEProgress } from "@/hooks/useSSEProgress";
 
 const { Content, Footer } = Layout;
 
 const Page = () => {
   const [isDark, setIsDark] = useState(true);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [showGraphPanel, setShowGraphPanel] = useState(false);
-  const { data, progress } = useSSEProgress();
+  const [showConfirmTrain, setShowConfirmTrain] = useState(false);
+  const [isTraining, setIsTraining] = useState(false);
+  const { data, progress } = useSSEProgress(isTraining);
 
   const toggleTheme = () => setIsDark(!isDark);
-  const handlePrmBtnClick = () => setIsModalVisible(true);
-  const handleModalClose = () => setIsModalVisible(false);
+  const handlePrmBtnClick = () => setShowConfirmTrain(true);
   const handleGraphClick = () => setShowGraphPanel(true);
   const handleGraphClose = () => setShowGraphPanel(false);
+  const handleConfirmTrainOk = () => {
+    setShowConfirmTrain(false);
+    setIsTraining(true); // 标记为正在训练
+    // 这里可以调用实际的训练 API
+    // fetch('/api/train', { method: 'POST' }) ...
+  };
+  const handleConfirmTrainCancel = () => setShowConfirmTrain(false);
 
   return (
     <ConfigProvider
@@ -40,8 +47,13 @@ const Page = () => {
             欢迎使用 Ant Design 组件页面！
           </Typography.Paragraph>
           <TrainingPanel isDark={isDark} onStart={handlePrmBtnClick} onGraph={handleGraphClick} />
+          <ConfirmTrainModal
+            isDark={isDark}
+            visible={showConfirmTrain}
+            onOk={handleConfirmTrainOk}
+            onCancel={handleConfirmTrainCancel}
+          />
           <ProgressInfo isDark={isDark} progress={progress} />
-          <CustomModal isDark={isDark} visible={isModalVisible} onClose={handleModalClose} />
           <GraphPanel visible={showGraphPanel} onClose={handleGraphClose} data={data} />
         </Content>
         <Footer style={{ textAlign: "center", color: isDark ? "#E0E7FF" : "#000000" }}>
