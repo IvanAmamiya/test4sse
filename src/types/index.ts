@@ -20,7 +20,7 @@ export interface GradientButtonProps {
     type?: "primary" | "default" | "dashed" | "link" | "text";
     style?: React.CSSProperties;
     onClick: () => void;
-    children: React.ReactNode;
+    children?: React.ReactNode;
     disabled?: boolean;
 }  
 
