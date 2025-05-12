@@ -17,6 +17,8 @@ export default function RootLayout({
       <body>
         <Providers>
           {children}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '8px 24px 0 0' }}>
+          </div>
         </Providers>
       </body>
     </html>

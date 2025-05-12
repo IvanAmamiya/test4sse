@@ -9,7 +9,6 @@ import ConfirmTrainModal from "@/components/ConfirmTrainModal";
 import { useSSEProgress } from "@/hooks/useSSEProgress";
 import type { TrainDataPoint } from "@/hooks/useSSEProgress";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import '../utils/i18n';
 
 const { Content, Footer } = Layout;
@@ -114,7 +113,6 @@ const Page = () => {
         <Footer style={{ textAlign: "center", color: isDark ? "#E0E7FF" : "#000000" }}>
           Anon Saijo
         </Footer>
-        <LanguageSwitcher style={{ marginTop: 16 }} />
       </Layout>
     </ConfigProvider>
   );

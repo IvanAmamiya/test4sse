@@ -17,6 +17,7 @@ export interface SSEResponse {
 export interface GradientButtonProps {
     className?: string;
     isDark?: boolean;
+    key?: string;
     type?: "primary" | "default" | "dashed" | "link" | "text";
     style?: React.CSSProperties;
     onClick: () => void;

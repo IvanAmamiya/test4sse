@@ -1,8 +1,13 @@
+"use client";
+
 import React from "react";
 import { useTranslation } from "react-i18next";
+import GradientButton from "@/components/GradientButton";
 
 interface LanguageSwitcherProps {
+  isDark?: boolean; // 支持外部传递主题色
   style?: React.CSSProperties;
+  buttonStyle?: React.CSSProperties;
 }
 
 const langs = [
@@ -11,30 +16,31 @@ const langs = [
   { code: "en", label: "English" },
 ];
 
-const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ style }) => {
+const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ isDark, style, buttonStyle }) => {
   const { i18n } = useTranslation();
   const current = i18n.language;
+  // const effectiveIsDark = typeof isDark === 'boolean' ? isDark : (typeof window !== 'undefined' && document.body.classList.contains('dark'));
+  // 让语言按钮和主题切换按钮风格一致，直接复用 GradientButton 的 getThemeGradient/getThemeColor
   return (
-    <div style={{ display: "flex", gap: 8, ...style }}>
-      {langs.map(lang => (
-        <button
-          key={lang.code}
-          onClick={() => i18n.changeLanguage(lang.code)}
-          style={{
-            padding: "4px 12px",
-            borderRadius: 6,
-            border: current === lang.code ? "2px solid #1E3A8A" : "1px solid #ccc",
-            background: current === lang.code ? "#1E3A8A" : "#fff",
-            color: current === lang.code ? "#fff" : "#222",
-            fontWeight: current === lang.code ? 700 : 400,
-            cursor: "pointer",
-            outline: "none",
-            transition: "all 0.2s"
-          }}
-        >
-          {lang.label}
-        </button>
-      ))}
+    <div style={{ display: "flex", gap: 4, ...style }}>
+      {langs.map(lang => {
+        const selected = current === lang.code;
+        return (
+          <GradientButton
+            isDark={isDark}
+            onClick={() => i18n.changeLanguage(lang.code)}
+            type={selected ? "primary" : "default"}
+            style={{
+              fontWeight: selected ? 700 : 400,
+              border: selected ? (isDark ? '2px solid #fff' : '2px solid #64748b') : '2px solid transparent',
+              ...buttonStyle,
+            }}
+            key={lang.code}
+          >
+            {lang.label}
+          </GradientButton>
+        );
+      })}
     </div>
   );
 };

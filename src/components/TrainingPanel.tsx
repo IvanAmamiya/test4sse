@@ -1,7 +1,6 @@
 import React from "react";
 import { Input } from "antd";
 import GradientButton from "@/components/GradientButton";
-import { useTranslation } from "react-i18next";
 
 interface TrainingPanelProps {
   isDark: boolean;
