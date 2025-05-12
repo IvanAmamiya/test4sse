@@ -17,6 +17,7 @@ function startMockTraining() {
     step++;
     loss = Math.max(0.05, loss * 0.8 + Math.random() * 0.05);
     accuracy = Math.min(1, accuracy + 0.05 + Math.random() * 0.05);
+    console.log('[SSE mock] loss:', loss, 'accuracy:', accuracy);
     const data = { step, loss: Number(loss.toFixed(3)), accuracy: Number(accuracy.toFixed(3)) };
     appendTrainData(data);
     if (step >= 20) {
