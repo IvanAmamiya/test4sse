@@ -25,6 +25,7 @@ const resources = {
       loss: '损失',
       accuracyCurve: '准确率曲线',
       accuracy: '准确率',
+      inputPlaceholder: '请输入训练参数',
     }
   },
   ja: {
@@ -50,6 +51,7 @@ const resources = {
       loss: '損失',
       accuracyCurve: '精度曲線',
       accuracy: '精度',
+      inputPlaceholder: 'トレーニングパラメータを入力してください',
     }
   },
   en: {
@@ -75,6 +77,7 @@ const resources = {
       loss: 'Loss',
       accuracyCurve: 'Accuracy Curve',
       accuracy: 'Accuracy',
+      inputPlaceholder: 'Please enter training parameters',
     }
   }
 };
