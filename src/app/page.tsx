@@ -39,9 +39,9 @@ const Page = () => {
     // 请求后端启动训练
     const res = await fetch('/api/train/start', { method: 'POST' });
     if (res.ok) {
-      setIsTraining(true);
+      setIsTraining(true); // 只有后端返回 ok 后再锁按钮，避免编译时卡住按钮
     } else {
-      // 如果后端已完成训练，允许重新训练
+      setIsTraining(false);
       const result = await res.json();
       if (result.msg === 'Training already in progress') {
         // 重新获取状态，若已完成则允许重置
@@ -57,6 +57,11 @@ const Page = () => {
     }
   };
   const handleConfirmTrainCancel = () => setShowConfirmTrain(false);
+
+  const percent = data.length > 0 && data[data.length - 1].totalSteps
+    ? Math.round((data[data.length - 1].currentStep! / data[data.length - 1].totalSteps!) * 100)
+    : 0;
+  const isTrainingLocked = percent > 0 && percent < 100;
 
   return (
     <ConfigProvider
@@ -79,7 +84,7 @@ const Page = () => {
             isDark={isDark}
             onStart={handlePrmBtnClick}
             onGraph={handleGraphClick}
-            isTraining={isTraining || showConfirmTrain}
+            isTraining={isTrainingLocked || showConfirmTrain}
           />
           {/* 显示上一次训练进度 */}
           {prevData.length > 0 && (
@@ -94,7 +99,7 @@ const Page = () => {
             onOk={handleConfirmTrainOk}
             onCancel={handleConfirmTrainCancel}
           />
-          <ProgressInfo isDark={isDark} progress={progress} />
+          <ProgressInfo isDark={isDark} progress={percent} />
           <GraphPanel visible={showGraphPanel} onClose={handleGraphClose} data={data} />
         </Content>
         <Footer style={{ textAlign: "center", color: isDark ? "#E0E7FF" : "#000000" }}>

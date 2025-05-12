@@ -5,6 +5,8 @@ export interface TrainDataPoint {
   step: number;
   loss: number;
   accuracy: number;
+  totalSteps?: number;
+  currentStep?: number;
 }
 
 // 用于监听 SSE 进度和消息的自定义 hook

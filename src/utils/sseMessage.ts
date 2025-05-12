@@ -1,5 +1,7 @@
 import { appendTrainData, getTrainData, getTraining, setTraining } from "@/utils/trainMockState";
 
+const TRAIN_TOTAL_STEPS = 20;
+
 // mock 训练数据生成器（独立于 SSE）
 let trainingInterval: NodeJS.Timeout | null = null;
 
@@ -18,8 +20,7 @@ function startMockTraining() {
     loss = Math.max(0.05, loss * 0.8 + Math.random() * 0.05);
     accuracy = Math.min(1, accuracy + 0.05 + Math.random() * 0.05);
     console.log('[SSE mock] loss:', loss, 'accuracy:', accuracy);
-    const data = { step, loss: Number(loss.toFixed(3)), accuracy: Number(accuracy.toFixed(3)) };
-    appendTrainData(data);
+    appendTrainData({ step, loss: Number(loss.toFixed(3)), accuracy: Number(accuracy.toFixed(3)), totalSteps: TRAIN_TOTAL_STEPS, currentStep: step });
     if (step >= 20) {
       setTraining(false);
       clearInterval(trainingInterval!);
