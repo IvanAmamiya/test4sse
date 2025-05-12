@@ -16,6 +16,13 @@ const ConfirmTrainModal: React.FC<ConfirmTrainModalProps> = ({ isDark, visible, 
     onCancel={onCancel}
     okText="确定"
     cancelText="取消"
+    okButtonProps={{
+      style: {
+        background: isDark ? "#f59e42" : "#22c55e",
+        borderColor: isDark ? "#f59e42" : "#22c55e",
+        color: "#fff",
+      },
+    }}
     style={{
       backgroundColor: getThemeColor("modalBg", isDark),
       color: getThemeColor("text", isDark),
