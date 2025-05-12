@@ -40,6 +40,20 @@ const Page = () => {
     const res = await fetch('/api/train/start', { method: 'POST' });
     if (res.ok) {
       setIsTraining(true);
+    } else {
+      // 如果后端已完成训练，允许重新训练
+      const result = await res.json();
+      if (result.msg === 'Training already in progress') {
+        // 重新获取状态，若已完成则允许重置
+        fetch('/api/train/status')
+          .then(r => r.json())
+          .then(status => {
+            if (!status.running && !status.lock) {
+              // 训练已完成，允许重新训练
+              setIsTraining(false);
+            }
+          });
+      }
     }
   };
   const handleConfirmTrainCancel = () => setShowConfirmTrain(false);
