@@ -95,3 +95,8 @@
 .textColorLight {
   color: #000000;
 }
+
+/* 主题切换过渡效果 */
+.themeTransition {
+  transition: background 0.5s ease-in-out, color 0.3s;
+}

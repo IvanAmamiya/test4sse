@@ -1,6 +1,7 @@
 import React from "react";
 import { Alert, Progress } from "antd";
 import { getThemeGradient, getThemeColor } from "@/utils/theme";
+import styles from "../styles/pageStyles.module.css";
 
 interface ProgressInfoProps {
   isDark: boolean;
@@ -14,6 +15,7 @@ const ProgressInfo: React.FC<ProgressInfoProps> = ({ isDark, progress, t }) => (
       message={t('progressAlert')}
       type="info"
       showIcon
+      className={styles.themeTransition}
       style={{
         marginBottom: 16,
         fontWeight: 'bold',

@@ -3,6 +3,7 @@ import { Layout, Typography } from "antd";
 import GradientButton from "@/components/GradientButton";
 import { getThemeGradient } from "@/utils/theme";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import styles from "../styles/pageStyles.module.css";
 
 const { Header } = Layout;
 const { Title } = Typography;
@@ -23,6 +24,7 @@ const ThemeHeader: React.FC<ThemeHeaderProps> = ({ isDark, onToggleTheme, t }) =
       padding: "0 24px",
       background: getThemeGradient("header", isDark),
     }}
+    className={styles.themeTransition}
   >
     <Title
       level={2}
