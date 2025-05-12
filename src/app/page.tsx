@@ -36,20 +36,23 @@ const Page = () => {
   const handleConfirmTrainOk = async () => {
     setShowConfirmTrain(false);
     setPrevData(data); // 保存上一次训练的进度
+    setIsTraining(false); // 先重置训练状态，防止进度条残留
+    setTimeout(() => {
+      setIsTraining(true); // 重新进入训练状态
+    }, 0);
+    setTimeout(() => {
+      setPrevData([]); // 清空上一次训练进度
+    }, 0);
     // 请求后端启动训练
     const res = await fetch('/api/train/start', { method: 'POST' });
-    if (res.ok) {
-      setIsTraining(true); // 只有后端返回 ok 后再锁按钮，避免编译时卡住按钮
-    } else {
+    if (!res.ok) {
       setIsTraining(false);
       const result = await res.json();
       if (result.msg === 'Training already in progress') {
-        // 重新获取状态，若已完成则允许重置
         fetch('/api/train/status')
           .then(r => r.json())
           .then(status => {
             if (!status.running && !status.lock) {
-              // 训练已完成，允许重新训练
               setIsTraining(false);
             }
           });
