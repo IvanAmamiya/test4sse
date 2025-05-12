@@ -19,7 +19,9 @@ const Page = () => {
   const [showConfirmTrain, setShowConfirmTrain] = useState(false);
   const [isTraining, setIsTraining] = useState(false);
   const [prevData, setPrevData] = useState<TrainDataPoint[]>([]);
-  const { data, progress } = useSSEProgress(isTraining);
+  const [data, setData] = useState<TrainDataPoint[]>([]);
+  const [progress, setProgress] = useState(0);
+  useSSEProgress(isTraining, setData, setProgress);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -41,6 +43,7 @@ const Page = () => {
     setPrevData(data); // 保存上一次训练的进度
     setIsTraining(false); // 先重置训练状态，防止进度条残留
     setTimeout(() => {
+      setData([]); // 清空当前曲线
       setIsTraining(true); // 重新进入训练状态
     }, 0);
     setTimeout(() => {
@@ -64,9 +67,7 @@ const Page = () => {
   };
   const handleConfirmTrainCancel = () => setShowConfirmTrain(false);
 
-  const percent = data.length > 0 && data[data.length - 1].totalSteps
-    ? Math.round((data[data.length - 1].currentStep! / data[data.length - 1].totalSteps!) * 100)
-    : 0;
+  const percent = progress;
   const isTrainingLocked = percent > 0 && percent < 100;
 
   return (
