@@ -1,8 +1,9 @@
 "use client";
+import '../utils/i18n';
 
 import { ConfigProvider, App } from "antd";
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+export default function Providers({ children }: { children?: React.ReactNode }) {
   return (
     <ConfigProvider
       theme={{

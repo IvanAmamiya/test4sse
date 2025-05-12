@@ -1,6 +1,7 @@
 import React from "react";
 import { Input } from "antd";
 import GradientButton from "@/components/GradientButton";
+import { useTranslation } from "react-i18next";
 
 interface TrainingPanelProps {
   isDark: boolean;
@@ -9,7 +10,7 @@ interface TrainingPanelProps {
   isTraining: boolean;
 }
 
-const TrainingPanel: React.FC<TrainingPanelProps> = ({ isDark, onStart, onGraph, isTraining }) => {
+const TrainingPanel: React.FC<TrainingPanelProps & { t: any }> = ({ isDark, onStart, onGraph, isTraining, t }) => {
   return (
     <div style={{ margin: '14px 0' }}>
       <Input
@@ -19,10 +20,10 @@ const TrainingPanel: React.FC<TrainingPanelProps> = ({ isDark, onStart, onGraph,
         disabled={isTraining}
       />
       <GradientButton isDark={isDark} onClick={onStart} disabled={isTraining}>
-        Start Training
+        {t('startTraining')}
       </GradientButton>
       <GradientButton isDark={isDark} onClick={onGraph}>
-        Graphs
+        {t('graphs')}
       </GradientButton>
     </div>
   );

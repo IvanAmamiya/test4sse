@@ -9,14 +9,14 @@ interface ConfirmTrainModalProps {
   onCancel: () => void;
 }
 
-const ConfirmTrainModal: React.FC<ConfirmTrainModalProps> = ({ isDark, visible, onOk, onCancel }) => (
+const ConfirmTrainModal: React.FC<ConfirmTrainModalProps & { t: any }> = ({ isDark, visible, onOk, onCancel, t }) => (
   <Modal
-    title="确认操作"
+    title={t('confirmOperation')}
     open={visible}
     onOk={onOk}
     onCancel={onCancel}
-    okText="确定"
-    cancelText="取消"
+    okText={t('confirm')}
+    cancelText={t('cancel')}
     okButtonProps={{
       style: {
         background: isDark ? "#f59e42" : "#22c55e",
@@ -30,7 +30,7 @@ const ConfirmTrainModal: React.FC<ConfirmTrainModalProps> = ({ isDark, visible, 
       border: `1px solid ${getThemeColor("modalBorder", isDark)}`,
     }}
   >
-    开始训练，可以吗？
+    {t('startTrainingQuestion')}
   </Modal>
 );
 

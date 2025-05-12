@@ -7,7 +7,7 @@ interface ProgressInfoProps {
   progress: number;
 }
 
-const ProgressInfo: React.FC<ProgressInfoProps> = ({ isDark, progress }) => (
+const ProgressInfo: React.FC<ProgressInfoProps & { t: any }> = ({ isDark, progress, t }) => (
   <>
     <Alert
       message="Ant Design Alert Example"
@@ -28,7 +28,7 @@ const ProgressInfo: React.FC<ProgressInfoProps> = ({ isDark, progress }) => (
       style={{ marginBottom: 16 }}
     />
     <div className="text-2xl text-left" style={{ color: getThemeColor("progressText", isDark) }}>
-      进度：{progress}%
+      {t('progress')}: {progress}%
     </div>
   </>
 );

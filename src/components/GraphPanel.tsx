@@ -9,9 +9,9 @@ interface GraphPanelProps {
   data: TrainDataPoint[];
 }
 
-const GraphPanel: React.FC<GraphPanelProps> = ({ visible, onClose, data }) => (
+const GraphPanel: React.FC<GraphPanelProps & { t: any }> = ({ visible, onClose, data, t }) => (
   <Modal
-    title="训练过程曲线"
+    title={t('trainingCurve')}
     open={visible}
     onCancel={onClose}
     footer={null}
@@ -19,7 +19,7 @@ const GraphPanel: React.FC<GraphPanelProps> = ({ visible, onClose, data }) => (
   >
     <div style={{ display: 'flex', gap: 24 }}>
       <div style={{ flex: 1 }}>
-        <div style={{ textAlign: 'center', marginBottom: 8 }}>Loss 曲线</div>
+        <div style={{ textAlign: 'center', marginBottom: 8 }}>{t('loss') || 'Loss'} 曲线</div>
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -27,12 +27,12 @@ const GraphPanel: React.FC<GraphPanelProps> = ({ visible, onClose, data }) => (
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="loss" stroke="#8884d8" name="Loss" />
+            <Line type="monotone" dataKey="loss" stroke="#8884d8" name={t('loss') || 'Loss'} />
           </LineChart>
         </ResponsiveContainer>
       </div>
       <div style={{ flex: 1 }}>
-        <div style={{ textAlign: 'center', marginBottom: 8 }}>Accuracy 曲线</div>
+        <div style={{ textAlign: 'center', marginBottom: 8 }}>{t('accuracy') || 'Accuracy'} 曲线</div>
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -40,7 +40,7 @@ const GraphPanel: React.FC<GraphPanelProps> = ({ visible, onClose, data }) => (
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="accuracy" stroke="#82ca9d" name="Accuracy" />
+            <Line type="monotone" dataKey="accuracy" stroke="#82ca9d" name={t('accuracy') || 'Accuracy'} />
           </LineChart>
         </ResponsiveContainer>
       </div>

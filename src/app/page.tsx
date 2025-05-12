@@ -8,6 +8,8 @@ import GraphPanel from "@/components/GraphPanel";
 import ConfirmTrainModal from "@/components/ConfirmTrainModal";
 import { useSSEProgress } from "@/hooks/useSSEProgress";
 import type { TrainDataPoint } from "@/hooks/useSSEProgress";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import '../utils/i18n';
 
 const { Content, Footer } = Layout;
@@ -19,6 +21,7 @@ const Page = () => {
   const [isTraining, setIsTraining] = useState(false);
   const [prevData, setPrevData] = useState<TrainDataPoint[]>([]);
   const { data, progress } = useSSEProgress(isTraining);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // 页面加载时获取训练状态和进度
@@ -82,19 +85,20 @@ const Page = () => {
         <ThemeHeader isDark={isDark} onToggleTheme={toggleTheme} />
         <Content style={{ padding: "24px" }}>
           <Typography.Paragraph style={{ color: isDark ? "#E0E7FF" : "#000000" }}>
-            欢迎使用 Ant Design 组件页面！
+            {t('welcome')}
           </Typography.Paragraph>
           <TrainingPanel
             isDark={isDark}
             onStart={handlePrmBtnClick}
             onGraph={handleGraphClick}
             isTraining={isTrainingLocked || showConfirmTrain}
+            t={t}
           />
           {/* 显示上一次训练进度 */}
           {prevData.length > 0 && (
             <div style={{ marginBottom: 24 }}>
-              <Typography.Title level={5} style={{ color: isDark ? "#E0E7FF" : "#000000" }}>上一次训练曲线</Typography.Title>
-              <GraphPanel visible={false} onClose={() => {}} data={prevData} />
+              <Typography.Title level={5} style={{ color: isDark ? "#E0E7FF" : "#000000" }}>{t('lastTrainingCurve')}</Typography.Title>
+              <GraphPanel visible={false} onClose={() => {}} data={prevData} t={t} />
             </div>
           )}
           <ConfirmTrainModal
@@ -102,13 +106,15 @@ const Page = () => {
             visible={showConfirmTrain}
             onOk={handleConfirmTrainOk}
             onCancel={handleConfirmTrainCancel}
+            t={t}
           />
-          <ProgressInfo isDark={isDark} progress={percent} />
-          <GraphPanel visible={showGraphPanel} onClose={handleGraphClose} data={data} />
+          <ProgressInfo isDark={isDark} progress={percent} t={t} />
+          <GraphPanel visible={showGraphPanel} onClose={handleGraphClose} data={data} t={t} />
         </Content>
         <Footer style={{ textAlign: "center", color: isDark ? "#E0E7FF" : "#000000" }}>
           Anon Saijo
         </Footer>
+        <LanguageSwitcher style={{ marginTop: 16 }} />
       </Layout>
     </ConfigProvider>
   );
