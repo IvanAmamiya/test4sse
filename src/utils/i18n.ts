@@ -18,6 +18,8 @@ const resources = {
       chinese: '中文',
       japanese: '日语',
       english: '英语',
+      switchToLight: '切换到浅色',
+      switchToDark: '切换到深色',
     }
   },
   ja: {
@@ -36,6 +38,8 @@ const resources = {
       chinese: '中国語',
       japanese: '日本語',
       english: '英語',
+      switchToLight: 'ライトモードに切り替え',
+      switchToDark: 'ダークモードに切り替え',
     }
   },
   en: {
@@ -54,6 +58,8 @@ const resources = {
       chinese: 'Chinese',
       japanese: 'Japanese',
       english: 'English',
+      switchToLight: 'Switch to Light Mode',
+      switchToDark: 'Switch to Dark Mode',
     }
   }
 };

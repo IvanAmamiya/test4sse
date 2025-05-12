@@ -6,11 +6,12 @@ interface CustomModalProps {
   isDark: boolean;
   visible: boolean;
   onClose: () => void;
+  t: (key: string) => string;
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({ isDark, visible, onClose }) => (
+const CustomModal: React.FC<CustomModalProps> = ({ isDark, visible, onClose, t }) => (
   <Modal
-    title="AntD Button Clicked!"
+    title={t('customModalTitle')}
     open={visible}
     onCancel={onClose}
     footer={null}
@@ -20,7 +21,7 @@ const CustomModal: React.FC<CustomModalProps> = ({ isDark, visible, onClose }) =
       border: `1px solid ${getThemeColor("modalBorder", isDark)}`,
     }}
   >
-    这是一个示例对话框，内容会根据主题动态调整颜色。
+    {t('customModalContent')}
   </Modal>
 );
 

@@ -8,15 +8,16 @@ interface LanguageSwitcherProps {
   isDark?: boolean; // 支持外部传递主题色
   style?: React.CSSProperties;
   buttonStyle?: React.CSSProperties;
+  t: (key: string) => string;
 }
 
 const langs = [
-  { code: "zh", label: "中文" },
-  { code: "ja", label: "日本語" },
-  { code: "en", label: "English" },
+  { code: "zh", labelKey: "chinese" },
+  { code: "ja", labelKey: "japanese" },
+  { code: "en", labelKey: "english" },
 ];
 
-const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ isDark, style, buttonStyle }) => {
+const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ isDark, style, buttonStyle, t }) => {
   const { i18n } = useTranslation();
   const current = i18n.language;
   // const effectiveIsDark = typeof isDark === 'boolean' ? isDark : (typeof window !== 'undefined' && document.body.classList.contains('dark'));
@@ -37,7 +38,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ isDark, style, butt
             }}
             key={lang.code}
           >
-            {lang.label}
+            {t(lang.labelKey)}
           </GradientButton>
         );
       })}

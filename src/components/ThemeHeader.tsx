@@ -10,9 +10,10 @@ const { Title } = Typography;
 interface ThemeHeaderProps {
   isDark: boolean;
   onToggleTheme: () => void;
+  t: (key: string) => string;
 }
 
-const ThemeHeader: React.FC<ThemeHeaderProps> = ({ isDark, onToggleTheme }) => (
+const ThemeHeader: React.FC<ThemeHeaderProps> = ({ isDark, onToggleTheme, t }) => (
   <Header
     style={{
       display: "flex",
@@ -36,9 +37,9 @@ const ThemeHeader: React.FC<ThemeHeaderProps> = ({ isDark, onToggleTheme }) => (
       Anon Saijo
     </Title>
     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <LanguageSwitcher isDark={isDark} buttonStyle={{ height: 32, fontSize: 15, padding: '0 16px' }} />
+        <LanguageSwitcher isDark={isDark} buttonStyle={{ height: 32, fontSize: 15, padding: '0 16px' }} t={t} />
         <GradientButton isDark={isDark} onClick={onToggleTheme} style={{ height: 32, fontSize: 15, padding: '0 16px' }}>
-            切换到{isDark ? "浅色" : "深色"}模式
+            {t(isDark ? 'switchToLight' : 'switchToDark')}
         </GradientButton>
     </div>
   </Header>

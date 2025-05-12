@@ -10,5 +10,10 @@ export function getThemeGradient(type: ThemeGradientKey, isDark: boolean) {
 
 // 获取主题色，type 为 themeConfig.json 的 key
 export function getThemeColor(type: ThemeColorKey, isDark: boolean) {
-  return isDark ? themeConfig.colors[type].dark : themeConfig.colors[type].light;
+  const colorObj = themeConfig.colors[type];
+  if (!colorObj) {
+    console.warn(`[getThemeColor] 未找到主题色 key: ${type}`);
+    return isDark ? '#222' : '#eee'; // 默认色
+  }
+  return isDark ? colorObj.dark : colorObj.light;
 }

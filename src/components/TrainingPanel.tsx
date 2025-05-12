@@ -7,13 +7,14 @@ interface TrainingPanelProps {
   onStart: () => void;
   onGraph: () => void;
   isTraining: boolean;
+  t: (key: string) => string;
 }
 
-const TrainingPanel: React.FC<TrainingPanelProps & { t: any }> = ({ isDark, onStart, onGraph, isTraining, t }) => {
+const TrainingPanel: React.FC<TrainingPanelProps> = ({ isDark, onStart, onGraph, isTraining, t }) => {
   return (
     <div style={{ margin: '14px 0' }}>
       <Input
-        placeholder="Type something..."
+        placeholder={t('inputPlaceholder')}
         className="transition-all duration-300 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
         style={{ width: 300, marginRight: 8 }}
         disabled={isTraining}

@@ -5,12 +5,13 @@ import { getThemeGradient, getThemeColor } from "@/utils/theme";
 interface ProgressInfoProps {
   isDark: boolean;
   progress: number;
+  t: (key: string) => string;
 }
 
-const ProgressInfo: React.FC<ProgressInfoProps & { t: any }> = ({ isDark, progress, t }) => (
+const ProgressInfo: React.FC<ProgressInfoProps> = ({ isDark, progress, t }) => (
   <>
     <Alert
-      message="Ant Design Alert Example"
+      message={t('progressAlert')}
       type="info"
       showIcon
       style={{

@@ -82,7 +82,7 @@ const Page = () => {
       }}
     >
       <Layout style={{ minHeight: "100vh" }}>
-        <ThemeHeader isDark={isDark} onToggleTheme={toggleTheme} />
+        <ThemeHeader isDark={isDark} onToggleTheme={toggleTheme} t={t} />
         <Content style={{ padding: "24px" }}>
           <Typography.Paragraph style={{ color: isDark ? "#E0E7FF" : "#000000" }}>
             {t('welcome')}

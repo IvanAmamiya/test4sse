@@ -15,6 +15,14 @@
     "modalBg": {
       "dark": "#1E293B",
       "light": "#FFFFFF"
+    },
+    "modalOkBtn": {
+      "dark": "#2563eb",
+      "light": "#1677ff"
+    },
+    "modalOkBtnDark": {
+      "dark": "#2563eb",
+      "light": "#1677ff"
     }
   },
   "gradients": {
