@@ -5,10 +5,10 @@ import GradientButton from "@/components/GradientButton";
 interface TrainingPanelProps {
   isDark: boolean;
   onStart: () => void;
+  onGraph: () => void;
 }
 
-const TrainingPanel: React.FC<TrainingPanelProps> = ({ isDark, onStart }) => {
-  // 这里只保留输入框和按钮组，事件可按需扩展
+const TrainingPanel: React.FC<TrainingPanelProps> = ({ isDark, onStart, onGraph }) => {
   return (
     <div style={{ margin: '14px 0' }}>
       <Input
@@ -19,7 +19,7 @@ const TrainingPanel: React.FC<TrainingPanelProps> = ({ isDark, onStart }) => {
       <GradientButton isDark={isDark} onClick={onStart}>
         Start Training
       </GradientButton>
-      <GradientButton isDark={isDark} onClick={onStart}>
+      <GradientButton isDark={isDark} onClick={onGraph}>
         Graphs
       </GradientButton>
     </div>
