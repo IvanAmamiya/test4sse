@@ -3,10 +3,11 @@ import { Button } from "antd";
 import { GradientButtonProps } from "@/types";
 import { getThemeGradient, getThemeColor } from "@/utils/theme";
 
-const GradientButton: React.FC<GradientButtonProps> = ({ isDark = false, onClick, children, type = "primary" }) => {
+const GradientButton: React.FC<GradientButtonProps> = ({ isDark = false, onClick, children, type = "primary", disabled = false }) => {
   return (
     <Button
       type={type}
+      disabled={disabled}
       className={`transition-all duration-300 rounded cursor-pointer`}
       style={{
         background: getThemeGradient("alert", isDark),

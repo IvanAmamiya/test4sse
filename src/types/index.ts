@@ -21,6 +21,7 @@ export interface GradientButtonProps {
     style?: React.CSSProperties;
     onClick: () => void;
     children: React.ReactNode;
+    disabled?: boolean;
 }  
 
 export type SSEHandler = (req: Request, res: Response) => SSEResponse;
