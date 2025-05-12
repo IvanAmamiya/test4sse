@@ -20,6 +20,11 @@ const resources = {
       english: '英语',
       switchToLight: '切换到浅色',
       switchToDark: '切换到深色',
+      progressAlert: '训练进度已自动刷新',
+      lossCurve: '损失曲线',
+      loss: '损失',
+      accuracyCurve: '准确率曲线',
+      accuracy: '准确率',
     }
   },
   ja: {
@@ -40,6 +45,11 @@ const resources = {
       english: '英語',
       switchToLight: 'ライトモードに切り替え',
       switchToDark: 'ダークモードに切り替え',
+      progressAlert: '進捗状況は自動で更新されます',
+      lossCurve: '損失曲線',
+      loss: '損失',
+      accuracyCurve: '精度曲線',
+      accuracy: '精度',
     }
   },
   en: {
@@ -60,6 +70,11 @@ const resources = {
       english: 'English',
       switchToLight: 'Switch to Light Mode',
       switchToDark: 'Switch to Dark Mode',
+      progressAlert: 'Progress is auto-updated',
+      lossCurve: 'Loss Curve',
+      loss: 'Loss',
+      accuracyCurve: 'Accuracy Curve',
+      accuracy: 'Accuracy',
     }
   }
 };
