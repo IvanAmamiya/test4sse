@@ -49,4 +49,7 @@ export interface TrainDataPoint {
 
   // 进度百分比
   progress?: number;
+  // 总 epoch 数（如后端有推送）
+  total_epochs?: number;
+  total_epoch?: number;
 }

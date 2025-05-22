@@ -46,6 +46,33 @@ const Page = () => {
   };
   const handleConfirmTrainCancel = () => setShowConfirmTrain(false);
 
+  // 计算当前 epoch 和总 epoch
+  const epochList = data.map(d => typeof d.epoch === 'number' ? d.epoch : undefined).filter(e => e !== undefined) as number[];
+  const currentEpoch = epochList.length > 0 ? Math.max(...epochList) : undefined;
+  // 优先 total_epoch 字段，其次 total_epochs
+  const totalEpochs = data.find(d => typeof d.total_epoch === 'number')?.total_epoch ?? data.find(d => typeof d.total_epochs === 'number')?.total_epochs;
+
+  const progressRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (percent > 0 && percent < 100 && progressRef.current) {
+      progressRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [percent]);
+
+  // 页面加载时主动检测 SSE 队列是否有历史进度
+  useEffect(() => {
+    console.log("Z");
+    fetch('/api/train/status')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data.progress) && data.progress.length > 0) {
+          setData(data.progress);
+          setIsTraining(true); // 自动进入训练锁定
+        }
+      });
+  }, []);
+
   return (
     <ConfigProvider
       theme={{
@@ -77,7 +104,9 @@ const Page = () => {
             onCancel={handleConfirmTrainCancel}
             t={t}
           />
-          <ProgressInfo isDark={isDark} progress={percent} t={t} />
+          <div ref={progressRef}>
+            <ProgressInfo isDark={isDark} progress={percent} t={t} currentEpoch={currentEpoch} totalEpochs={totalEpochs} />
+          </div>
           <GraphPanel visible={showGraphPanel} onClose={handleGraphClose} data={data} t={t} />
         </Content>
         <Footer style={{ textAlign: "center", color: isDark ? "#E0E7FF" : "#000000" }}>

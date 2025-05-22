@@ -7,7 +7,9 @@ const TRAIN_TRIGGER_QUEUE = 'train_trigger';
 
 // Redis 客户端单例
 let redisClient: ReturnType<typeof createClient> | null = null;
-function getRedisClient() {
+
+// 声明式导出 Redis 客户端
+export function getRedisClient() {
   if (!redisClient) {
     redisClient = createClient({ url: REDIS_URL });
     redisClient.on('error', (err) => {
