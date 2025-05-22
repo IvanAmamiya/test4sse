@@ -18,21 +18,14 @@ const Page = () => {
   const [showGraphPanel, setShowGraphPanel] = useState(false);
   const [showConfirmTrain, setShowConfirmTrain] = useState(false);
   const [isTraining, setIsTraining] = useState(false);
-  const [prevData, setPrevData] = useState<TrainDataPoint[]>([]);
   const [data, setData] = useState<TrainDataPoint[]>([]);
   const [progress, setProgress] = useState(0);
   useSSEProgress(isTraining, setData, setProgress);
   const { t } = useTranslation();
 
-  useEffect(() => {
-    // 页面加载时获取训练状态和进度
-    fetch('/api/train/status')
-      .then(res => res.json())
-      .then(res => {
-        setIsTraining(res.running || res.lock); // 只要后端有 lock 或 running，按钮都禁用
-        setPrevData(res.progress || []);
-      });
-  }, []);
+  // 训练锁定逻辑仅依赖进度
+  const percent = progress;
+  const isTrainingLocked = percent > 0 && percent < 100;
 
   const toggleTheme = () => setIsDark(!isDark);
   const handlePrmBtnClick = () => setShowConfirmTrain(true);
@@ -40,35 +33,18 @@ const Page = () => {
   const handleGraphClose = () => setShowGraphPanel(false);
   const handleConfirmTrainOk = async () => {
     setShowConfirmTrain(false);
-    setPrevData(data); // 保存上一次训练的进度
-    setIsTraining(false); // 先重置训练状态，防止进度条残留
-    setTimeout(() => {
-      setData([]); // 清空当前曲线
-      setIsTraining(true); // 重新进入训练状态
-    }, 0);
-    setTimeout(() => {
-      setPrevData([]); // 清空上一次训练进度
-    }, 0);
+    setIsTraining(true); // 直接进入训练状态
+    setData([]); // 清空当前曲线
+    setProgress(0);
     // 请求后端启动训练
     const res = await fetch('/api/train/start', { method: 'POST' });
     if (!res.ok) {
       setIsTraining(false);
       const result = await res.json();
-      if (result.msg === 'Training already in progress') {
-        fetch('/api/train/status')
-          .then(r => r.json())
-          .then(status => {
-            if (!status.running && !status.lock) {
-              setIsTraining(false);
-            }
-          });
-      }
+      // 可选：弹窗提示 result.msg
     }
   };
   const handleConfirmTrainCancel = () => setShowConfirmTrain(false);
-
-  const percent = progress;
-  const isTrainingLocked = percent > 0 && percent < 100;
 
   return (
     <ConfigProvider
@@ -94,13 +70,6 @@ const Page = () => {
             isTraining={isTrainingLocked || showConfirmTrain}
             t={t}
           />
-          {/* 显示上一次训练进度 */}
-          {prevData.length > 0 && (
-            <div style={{ marginBottom: 24 }}>
-              <Typography.Title level={5} style={{ color: isDark ? "#E0E7FF" : "#000000" }}>{t('lastTrainingCurve')}</Typography.Title>
-              <GraphPanel visible={false} onClose={() => {}} data={prevData} t={t} />
-            </div>
-          )}
           <ConfirmTrainModal
             isDark={isDark}
             visible={showConfirmTrain}

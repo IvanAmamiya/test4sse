@@ -1,45 +1,61 @@
-import { appendTrainData, getTrainData, getTraining, setTraining } from "@/utils/trainMockState";
+import { createClient } from 'redis';
 
-const TRAIN_TOTAL_STEPS = 20;
+// Redis 配置
+const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
+const TRAIN_PROGRESS_QUEUE = 'train_status';
+const TRAIN_TRIGGER_QUEUE = 'train_trigger';
 
-// mock 训练数据生成器（独立于 SSE）
-let trainingInterval: NodeJS.Timeout | null = null;
-
-function startMockTraining() {
-  if (trainingInterval) return; // 已在训练中
-  let step = getTrainData().length;
-  let loss = step > 0 ? getTrainData()[step - 1].loss : 1;
-  let accuracy = step > 0 ? getTrainData()[step - 1].accuracy : 0;
-  trainingInterval = setInterval(() => {
-    if (!getTraining()) {
-      clearInterval(trainingInterval!);
-      trainingInterval = null;
-      return;
-    }
-    step++;
-    loss = Math.max(0.05, loss * 0.8 + Math.random() * 0.05);
-    accuracy = Math.min(1, accuracy + 0.05 + Math.random() * 0.05);
-    console.log('[SSE mock] loss:', loss, 'accuracy:', accuracy);
-    appendTrainData({ step, loss: Number(loss.toFixed(3)), accuracy: Number(accuracy.toFixed(3)), totalSteps: TRAIN_TOTAL_STEPS, currentStep: step });
-    if (step >= 20) {
-      setTraining(false);
-      clearInterval(trainingInterval!);
-      trainingInterval = null;
-    }
-  }, 2000); // 2秒一条
+// Redis 客户端单例
+let redisClient: ReturnType<typeof createClient> | null = null;
+function getRedisClient() {
+  if (!redisClient) {
+    redisClient = createClient({ url: REDIS_URL });
+    redisClient.on('error', (err) => {
+      console.error('[Redis] Client error:', err);
+      redisClient = null;
+    });
+    redisClient.connect().catch((err) => {
+      console.error('[Redis] Connect error:', err);
+      redisClient = null;
+    });
+  }
+  return redisClient;
 }
 
-// SSE 消费当前训练进度
+// SSE 消费 Redis 队列训练进度
 export async function* getSSEMessageStream() {
-  let lastIdx = 0;
+  const client = getRedisClient();
   while (true) {
-    if (getTraining()) startMockTraining();
-    const allData = getTrainData();
-    if (lastIdx < allData.length) {
-      for (; lastIdx < allData.length; lastIdx++) {
-        yield JSON.stringify(allData[lastIdx]);
+    try {
+      // 阻塞读取队列，超时30秒避免死等
+      const res = await client.brPop(TRAIN_PROGRESS_QUEUE, 30);
+      if (res && res.element) {
+        console.log('[SSE Redis] 收到训练进度消息:', res.element); // 实时打印消息内容
+        yield res.element; // 只 yield 纯 JSON 字符串，不加 data: 前缀
       }
+    } catch (err) {
+      console.error('[SSE Redis] brPop error:', err);
+      await new Promise(res => setTimeout(res, 1000));
     }
-    await new Promise(res => setTimeout(res, 1000));
+  }
+}
+
+// 触发远程训练（rpush 触发队列）
+export async function triggerRemoteTraining(command: string = 'start') {
+  const client = getRedisClient();
+  try {
+    // 触发前打印当前队列状态
+    const beforeLen = await client.lLen(TRAIN_TRIGGER_QUEUE);
+    console.log(`[Redis] train_trigger 队列触发前长度: ${beforeLen}`);
+    const res = await client.rPush(TRAIN_TRIGGER_QUEUE, command);
+    const afterLen = await client.lLen(TRAIN_TRIGGER_QUEUE);
+    console.log(`[Redis] train_trigger 队列触发后长度: ${afterLen}`);
+    // 触发后打印队列内容
+    const items = await client.lRange(TRAIN_TRIGGER_QUEUE, 0, -1);
+    console.log(`[Redis] train_trigger 队列内容:`, items);
+    return true;
+  } catch (err) {
+    console.error('[SSE Redis] triggerRemoteTraining error:', err);
+    return false;
   }
 }

@@ -1,17 +1,45 @@
-import { setTraining, resetTrainData, getTraining, getTrainingLock, setTrainingLock, getTrainData } from "@/utils/trainMockState";
+import { createClient, RedisClientType } from 'redis';
+
+// Redis 客户端单例，类型安全
+let redisClient: RedisClientType | null = null;
+async function getRedisClient() {
+  if (!redisClient) {
+    redisClient = createClient({ url: process.env.REDIS_URL || 'redis://localhost:6379' });
+    redisClient.on('error', (err) => {
+      console.error('[Redis] Client error:', err);
+      redisClient = null;
+    });
+    await redisClient.connect();
+  } else if (!redisClient.isOpen) {
+    await redisClient.connect();
+  }
+  return redisClient;
+}
+
+export async function triggerRemoteTraining(command = 'start') {
+  const client = await getRedisClient();
+  try {
+    const beforeLen = await client.lLen('train_trigger');
+    console.log(`[Redis] train_trigger 队列触发前长度: ${beforeLen}`);
+    // 只推送 'start' 字符串，兼容 Python 端
+    await client.rPush('train_trigger', 'start');
+    const afterLen = await client.lLen('train_trigger');
+    console.log(`[Redis] train_trigger 队列触发后长度: ${afterLen}`);
+    const items = await client.lRange('train_trigger', 0, -1);
+    console.log(`[Redis] train_trigger 队列内容:`, items);
+    return true;
+  } catch (err) {
+    console.error('[SSE Redis] triggerRemoteTraining error:', err);
+    return false;
+  }
+}
 
 export async function POST() {
-  // 后台加锁，训练期间不可重复启动
-  if (getTraining() || getTrainingLock()) {
-    // 检查是否已经训练完成，如果已完成则自动解锁
-    if (!getTraining() && getTrainData().length > 0 && getTrainData()[getTrainData().length - 1].currentStep === getTrainData()[getTrainData().length - 1].totalSteps) {
-      setTrainingLock(false);
-    } else {
-      return Response.json({ ok: false, msg: "Training already in progress" }, { status: 400 });
-    }
+  // 只触发真正训练，不再推送任何模拟进度
+  const ok = await triggerRemoteTraining('start');
+  if (ok) {
+    return Response.json({ ok: true, msg: '已触发训练' });
+  } else {
+    return Response.json({ ok: false, msg: '训练触发失败，请重试' }, { status: 500 });
   }
-  resetTrainData();
-  setTrainingLock(true); // 上锁
-  setTraining(true);
-  return Response.json({ ok: true });
 }

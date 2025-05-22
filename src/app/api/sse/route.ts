@@ -8,6 +8,7 @@ export async function GET(request: Request) {
       try {
         for await (const msg of getSSEMessageStream()) {
           const data = `data: ${msg}\n\n:${' '.repeat(2048)}\n\n`;
+          console.log(data);
           controller.enqueue(encoder.encode(data));
         }
       } catch (e) {
