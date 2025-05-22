@@ -16,14 +16,17 @@ const GraphPanel: React.FC<GraphPanelProps> = ({ visible, onClose, data, t }) =>
     x: d.global_batch ?? d.step ?? d.batch ?? 0,
     loss: d.test_loss ?? d.loss,
   }));
-  // accuracy 曲线：以 epoch 为横坐标，优先 test_acc > accuracy，每个 epoch 取最后一个 batch 的 acc
-  const accEpochMap = new Map<number, number>();
+  // accuracy 曲线：遍历消息列表，按 epoch 去重，保留每个 epoch 最后一个 test_acc/accuracy
+  const epochAccMap = new Map<number, number>();
   data.forEach(d => {
     if ((d.test_acc !== undefined || d.accuracy !== undefined) && typeof d.epoch === 'number') {
-      accEpochMap.set(d.epoch, (d.test_acc ?? d.accuracy) ?? 0);
+      epochAccMap.set(d.epoch, (d.test_acc ?? d.accuracy) ?? 0);
     }
   });
-  const accData = Array.from(accEpochMap.entries()).map(([x, accuracy]) => ({ x, accuracy }));
+  // 以 epoch 升序输出曲线
+  const accData = Array.from(epochAccMap.entries())
+    .sort((a, b) => a[0] - b[0])
+    .map(([x, accuracy]) => ({ x, accuracy }));
 
   return (
     <Modal
