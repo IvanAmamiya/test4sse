@@ -16,12 +16,17 @@ const GraphPanel: React.FC<GraphPanelProps> = ({ visible, onClose, data, t }) =>
     x: d.global_batch ?? d.step ?? d.batch ?? 0,
     loss: d.test_loss ?? d.loss,
   }));
-  // accuracy 曲线：以 epoch 为横坐标，优先 test_acc > accuracy
-  const accData = data.filter(d => (d.test_acc !== undefined || d.accuracy !== undefined) && d.epoch !== undefined && d.batch === undefined)
-    .map(d => ({
-      x: d.epoch ?? 0,
-      accuracy: d.test_acc ?? d.accuracy,
-    }));
+  // accuracy 曲线：以 epoch 为横坐标，优先 test_acc > accuracy，每个 epoch 只保留一个点
+  const accEpochMap = new Map<number, number>();
+  data.forEach(d => {
+    if ((d.test_acc !== undefined || d.accuracy !== undefined) && typeof d.epoch === 'number') {
+      // 只保留每个 epoch 第一个 test_acc/accuracy
+      if (!accEpochMap.has(d.epoch)) {
+        accEpochMap.set(d.epoch, d.test_acc ?? d.accuracy);
+      }
+    }
+  });
+  const accData = Array.from(accEpochMap.entries()).map(([x, accuracy]) => ({ x, accuracy }));
 
   return (
     <Modal

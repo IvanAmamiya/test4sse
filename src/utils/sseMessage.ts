@@ -30,7 +30,6 @@ export async function* getSSEMessageStream() {
       // 阻塞读取队列，超时30秒避免死等
       const res = await client.brPop(TRAIN_PROGRESS_QUEUE, 30);
       if (res && res.element) {
-        console.log('[SSE Redis] 收到训练进度消息:', res.element); // 实时打印消息内容
         yield res.element; // 只 yield 纯 JSON 字符串，不加 data: 前缀
       }
     } catch (err) {
@@ -46,13 +45,10 @@ export async function triggerRemoteTraining(command: string = 'start') {
   try {
     // 触发前打印当前队列状态
     const beforeLen = await client.lLen(TRAIN_TRIGGER_QUEUE);
-    console.log(`[Redis] train_trigger 队列触发前长度: ${beforeLen}`);
     const res = await client.rPush(TRAIN_TRIGGER_QUEUE, command);
     const afterLen = await client.lLen(TRAIN_TRIGGER_QUEUE);
-    console.log(`[Redis] train_trigger 队列触发后长度: ${afterLen}`);
     // 触发后打印队列内容
     const items = await client.lRange(TRAIN_TRIGGER_QUEUE, 0, -1);
-    console.log(`[Redis] train_trigger 队列内容:`, items);
     return true;
   } catch (err) {
     console.error('[SSE Redis] triggerRemoteTraining error:', err);

@@ -20,16 +20,12 @@ export async function triggerRemoteTraining(command = 'start') {
   const client = await getRedisClient();
   try {
     const beforeLen = await client.lLen('train_trigger');
-    console.log(`[Redis] train_trigger 队列触发前长度: ${beforeLen}`);
     // 只推送 'start' 字符串，兼容 Python 端
     await client.rPush('train_trigger', 'start');
     const afterLen = await client.lLen('train_trigger');
-    console.log(`[Redis] train_trigger 队列触发后长度: ${afterLen}`);
     const items = await client.lRange('train_trigger', 0, -1);
-    console.log(`[Redis] train_trigger 队列内容:`, items);
     return true;
   } catch (err) {
-    console.error('[SSE Redis] triggerRemoteTraining error:', err);
     return false;
   }
 }

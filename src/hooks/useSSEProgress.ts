@@ -22,7 +22,7 @@ export function useSSEProgress(
         const parsed = JSON.parse(event.data);
         // 1. 百分比直接用 progress 字段
         if (typeof parsed.progress === "number") {
-          setProgress(Math.round(parsed.progress * 100));
+          setProgress(Number((parsed.progress * 100).toFixed(2)));
         }
         // 2. loss 曲线每 batch 一个点，accuracy 曲线每 epoch 一个点
         setData(prev => {

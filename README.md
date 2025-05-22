@@ -97,6 +97,12 @@ export async function GET(request: Request) {
 }
 ```
 
+## 训练进度与曲线说明
+- 训练进度与曲线数据全部通过 Redis 队列实时推送（train_status 队列，JSON 格式）。
+- loss 曲线以 batch/step/global_batch 为横坐标（优先 global_batch），支持 loss/test_loss 字段。
+- accuracy 曲线仅以 epoch 为横坐标，仅显示 test_acc/accuracy 字段，**不会出现 step 点**。
+- 前端自动适配后端推送的 batch/epoch/loss/accuracy/test_loss/test_acc 字段，曲线与后端推送数据完全一致。
+
 ## 反馈与贡献
 如有建议或问题，欢迎提 issue 或 PR。
 
