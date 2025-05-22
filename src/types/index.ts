@@ -29,9 +29,24 @@ export type SSEHandler = (req: Request, res: Response) => SSEResponse;
 
 // 只保留 TrainDataPoint 类型定义
 export interface TrainDataPoint {
-  step: number;
-  loss: number;
-  accuracy: number;
+  // 横坐标：batch/step/global_batch/epoch
+  step?: number; // 通用横坐标（batch 或 global_batch 或 step）
+  epoch?: number;
+  batch?: number;
+  global_batch?: number;
+
+  // 损失与准确率
+  loss?: number; // 训练损失
+  accuracy?: number; // 训练准确率
+  test_loss?: number; // 测试损失
+  test_acc?: number; // 测试准确率
+
+  // 总步数/批次
   totalSteps?: number;
   currentStep?: number;
+  total_batches?: number;
+  total_batches_all?: number;
+
+  // 进度百分比
+  progress?: number;
 }
