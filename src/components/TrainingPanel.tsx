@@ -5,12 +5,13 @@ import GradientButton from "@/components/GradientButton";
 interface TrainingPanelProps {
   isDark: boolean;
   onStart: () => void;
+  onStop?: () => void;
   onGraph: () => void;
   isTraining: boolean;
   t: (key: string) => string;
 }
 
-const TrainingPanel: React.FC<TrainingPanelProps> = ({ isDark, onStart, onGraph, isTraining, t }) => {
+const TrainingPanel: React.FC<TrainingPanelProps> = ({ isDark, onStart, onStop, onGraph, isTraining, t }) => {
   return (
     <div style={{ margin: '14px 0' }}>
       <Input
@@ -22,6 +23,11 @@ const TrainingPanel: React.FC<TrainingPanelProps> = ({ isDark, onStart, onGraph,
       <GradientButton isDark={isDark} onClick={onStart} disabled={isTraining}>
         {t('startTraining')}
       </GradientButton>
+      {isTraining && onStop && (
+        <GradientButton isDark={isDark} onClick={onStop} disabled={false}>
+          {t('stopTraining') || 'Stop Training'}
+        </GradientButton>
+      )}
       <GradientButton isDark={isDark} onClick={onGraph}>
         {t('graphs')}
       </GradientButton>
